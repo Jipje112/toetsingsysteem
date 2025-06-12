@@ -3,6 +3,7 @@ $links = [
     ['url' => '/dashboard', 'label' => 'Dashboard'],
     ['url' => '/table1', 'label' => 'Table 1'],
     ['url' => '/table2', 'label' => 'Table 2'],
+    ['url' => '/inloggen', 'label' => 'Inloggen'],
 ];
 ?>
 

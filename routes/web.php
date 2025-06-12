@@ -28,3 +28,7 @@ Route::get('/table1', function () {
 Route::get('/table2', function () {
     return view('Table2');
 })->name('table2');
+
+Route::get('/inloggen', function () {
+    return view('Inloggen');
+})->name('inloggen');
