@@ -20,3 +20,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/table1', function () {
+    return view('Table1');
+})->name('table1');
+
+Route::get('/table2', function () {
+    return view('Table2');
+})->name('table2');
