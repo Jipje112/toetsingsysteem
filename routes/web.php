@@ -32,3 +32,7 @@ Route::get('/table2', function () {
 Route::get('/inloggen', function () {
     return view('Inloggen');
 })->name('inloggen');
+
+use App\Http\Controllers\UserController;
+
+Route::get('/users', [UserController::class, 'databasetestconnection'])->name('users');
