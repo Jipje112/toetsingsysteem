@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function databasetestconnection()
     {
-        $users = DB::table('users')->get(); // Fetch all users from SQLite or MySQL
+        $users = DB::table('users')->get();
 
         return view('databasetestconnection', compact('users'));
     }
