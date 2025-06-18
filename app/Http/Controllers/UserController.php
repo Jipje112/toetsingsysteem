@@ -7,11 +7,28 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function databasetestconnection()
+    // Show dashboard with list of students
+    public function showDashboard()
     {
         $students = DB::table('students')->get();
-
-        // 📦 Send the students to your view (e.g., 'dashboard.blade.php')
         return view('dashboard', compact('students'));
+    }
+
+    // Store a new student into the database
+    public function storeStudent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:students',
+        ]);
+
+        DB::table('students')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('students.dashboard')->with('success', 'Student created!');
     }
 }

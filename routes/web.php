@@ -1,16 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use Livewire\Volt\Volt;
 
+// --- Home page ---
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+// --- Authenticated Dashboard using controller ---
+Route::get('/dashboard', [UserController::class, 'showDashboard'])
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('students.dashboard');
 
+// --- Student creation route ---
+Route::post('/students/create', [UserController::class, 'storeStudent'])
+    ->middleware(['auth'])
+    ->name('students.store');
+
+// --- Volt settings (only for authenticated users) ---
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
@@ -19,20 +28,13 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+// --- Other pages ---
+Route::get('/table1', fn () => view('Table1'))->name('table1');
+Route::get('/table2', fn () => view('Table2'))->name('table2');
+Route::get('/inloggen', fn () => view('Inloggen'))->name('inloggen');
 
-Route::get('/table1', function () {
-    return view('Table1');
-})->name('table1');
-
-Route::get('/table2', function () {
-    return view('Table2');
-})->name('table2');
-
-Route::get('/inloggen', function () {
-    return view('Inloggen');
-})->name('inloggen');
-
-use App\Http\Controllers\UserController;
-
+// --- Old users test route (optional) ---
 Route::get('/users', [UserController::class, 'databasetestconnection'])->name('users');
+
+// --- Auth routes (login, register, etc.) ---
+require __DIR__.'/auth.php';
