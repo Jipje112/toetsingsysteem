@@ -9,8 +9,9 @@ class UserController extends Controller
 {
     public function databasetestconnection()
     {
-        $users = DB::table('users')->get();
+        $students = DB::table('students')->get();
 
-        return view('databasetestconnection', compact('users'));
+        // 📦 Send the students to your view (e.g., 'dashboard.blade.php')
+        return view('dashboard', compact('students'));
     }
 }

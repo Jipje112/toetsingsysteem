@@ -8,8 +8,12 @@
             <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
                 <x-malia1 class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
             </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+             <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-4">
+                @isset($students)
+                    <x-databasetestconnection :students="$students" />
+                @else
+                    <p class="text-red-500">No student data available.</p>
+                @endisset
             </div>
         </div>
         <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">

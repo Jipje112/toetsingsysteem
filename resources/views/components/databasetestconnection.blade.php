@@ -1,8 +1,7 @@
-<x-databasetestconnection :users="$users" />
 @props(['users'])
 
 <ul>
-    @foreach ($users as $user)
-        <li>{{ $user->name }} ({{ $user->email }})</li>
+    @foreach ($students as $student)
+        <li>{{ $student->name }} ({{ $student->email }})</li>
     @endforeach
 </ul>
