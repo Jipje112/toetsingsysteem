@@ -12,6 +12,11 @@ Route::get('/', function () {
 // --- Authenticated Dashboard using controller ---
 Route::get('/dashboard', [UserController::class, 'showDashboard'])
     ->middleware(['auth', 'verified'])
+    ->name('dashboard'); // this fixes the route not defined issue
+
+// --- Optional alias if you want both names (not strictly necessary) ---
+Route::get('/students/dashboard', [UserController::class, 'showDashboard'])
+    ->middleware(['auth', 'verified'])
     ->name('students.dashboard');
 
 // --- Student creation route ---
