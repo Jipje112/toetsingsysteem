@@ -29,6 +29,10 @@ Route::get('/table2', function () {
     return view('Table2');
 })->name('table2');
 
+use Illuminate\Support\Facades\DB;
+
 Route::get('/inloggen', function () {
-    return view('Inloggen');
+    $users = DB::table('users')->get(); // ✅ Fetch users from DB
+    return view('Inloggen', compact('users')); // ✅ Pass to Blade
 })->name('inloggen');
+

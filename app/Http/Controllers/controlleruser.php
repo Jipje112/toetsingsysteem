@@ -1,9 +1,10 @@
 <?php
+// app/View/Components/User.php
 namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class controlleruser extends Component
+class Controlleruser extends Component
 {
     public $users;
 
