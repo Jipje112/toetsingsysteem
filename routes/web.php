@@ -21,9 +21,6 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/table1', function () {
-    return view('Table1');
-})->name('table1');
 
 Route::get('/table2', function () {
     return view('Table2');
@@ -36,3 +33,9 @@ Route::get('/inloggen', function () {
     return view('Inloggen', compact('users')); // ✅ Pass to Blade
 })->name('inloggen');
 
+use App\Http\Controllers\controllerinserttest;
+
+Route::get('/toetsmaken', [controllerinserttest::class, 'toetsmaken'])->name('toetsmaken');
+Route::post('/toetsmaken', [controllerinserttest::class, 'store'])->name('toets.store');
+Route::post('/toetsmaken/update/{id}', [controllerinserttest::class, 'update'])->name('toets.update');
+Route::get('/toetsmaken/delete/{id}', [controllerinserttest::class, 'delete'])->name('toets.delete');
