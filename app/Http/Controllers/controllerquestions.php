@@ -5,73 +5,55 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ControllerQuestions extends Controller
+class controllerquestions extends Controller
 {
     public function toetsmaken(Request $request)
     {
-        $tests     = DB::table('testname')->get();
+        $tests = DB::table('testname')->get();
+
         $questions = DB::table('questions')
-            ->when($request->filter, fn($q) => $q->where('testnameID', $request->filter))
+            ->when($request->filter, function ($query, $filter) {
+                return $query->where('testnameID', $filter);
+            })
             ->get();
 
         return view('toetsmaken', compact('tests', 'questions'));
     }
 
-    // --- Tests CRUD ---
-    public function storeTest(Request $r)
+    public function storeQuestion(Request $request)
     {
-        $r->validate(['name' => 'required|string']);
-        DB::table('testname')->insert([
-            'name'       => $r->name,
-            'created_at' => now(), 'updated_at' => now()
+        $request->validate([
+            'question' => 'required|string',
+            'testnameID' => 'required|exists:testname,id',
         ]);
-        return redirect()->route('toetsmaken');
-    }
 
-    public function updateTest(Request $r, $id)
-    {
-        $r->validate(['name' => 'required|string']);
-        DB::table('testname')->where('id', $id)->update([
-            'name'       => $r->name,
-            'updated_at' => now()
-        ]);
-        return redirect()->route('toetsmaken');
-    }
-
-    public function deleteTest($id)
-    {
-        DB::table('testname')->where('id', $id)->delete();
-        return redirect()->route('toetsmaken');
-    }
-
-    // --- Questions CRUD ---
-    public function storeQuestion(Request $r)
-    {
-        $r->validate([
-            'question'   => 'required|string',
-            'testnameID' => 'required|exists:testname,id'
-        ]);
         DB::table('questions')->insert([
-            'question'       => $r->question,
-            'testnameID'     => $r->testnameID,
-            'correct_answer' => $r->has('correct_answer') ? 1 : 0,
-            'created_at'     => now(), 'updated_at' => now()
+            'question' => $request->question,
+            'testnameID' => $request->testnameID,
+            'correct_answer' => $request->has('correct_answer') ? 1 : 0,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
         return redirect()->route('toetsmaken');
     }
 
-    public function updateQuestion(Request $r, $id)
+    public function updateQuestion(Request $request, $id)
     {
-        $r->validate([
-            'question'   => 'required|string',
-            'testnameID' => 'required|exists:testname,id'
+        $request->validate([
+            'question' => 'required|string',
+            'testnameID' => 'required|exists:testname,id',
         ]);
-        DB::table('questions')->where('id', $id)->update([
-            'question'       => $r->question,
-            'testnameID'     => $r->testnameID,
-            'correct_answer' => $r->has('correct_answer') ? 1 : 0,
-            'updated_at'     => now()
-        ]);
+
+        DB::table('questions')
+            ->where('id', $id)
+            ->update([
+                'question' => $request->question,
+                'testnameID' => $request->testnameID,
+                'correct_answer' => $request->has('correct_answer') ? 1 : 0,
+                'updated_at' => now(),
+            ]);
+
         return redirect()->route('toetsmaken');
     }
 
