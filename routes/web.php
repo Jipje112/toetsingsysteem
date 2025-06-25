@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ControllerInsertTest;
+use App\Http\Controllers\controllerquestions;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,21 +25,26 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-
 Route::get('/table2', function () {
     return view('Table2');
 })->name('table2');
 
-use Illuminate\Support\Facades\DB;
-
 Route::get('/inloggen', function () {
-    $users = DB::table('users')->get(); // ✅ Fetch users from DB
-    return view('Inloggen', compact('users')); // ✅ Pass to Blade
+    $users = DB::table('users')->get();
+    return view('Inloggen', compact('users'));
 })->name('inloggen');
 
-use App\Http\Controllers\controllerinserttest;
+Route::get('/toetsmaken', [ControllerInsertTest::class, 'toetsmaken'])->name('toetsmaken');
 
-Route::get('/toetsmaken', [controllerinserttest::class, 'toetsmaken'])->name('toetsmaken');
-Route::post('/toetsmaken', [controllerinserttest::class, 'store'])->name('toets.store');
-Route::post('/toetsmaken/update/{id}', [controllerinserttest::class, 'update'])->name('toets.update');
-Route::get('/toetsmaken/delete/{id}', [controllerinserttest::class, 'delete'])->name('toets.delete');
+// Test management
+Route::post('/toetsmaken', [ControllerInsertTest::class, 'store'])->name('toets.store');
+Route::post('/toetsmaken/update/{id}', [ControllerInsertTest::class, 'update'])->name('toets.update');
+Route::get('/toetsmaken/delete/{id}', [ControllerInsertTest::class, 'delete'])->name('toets.delete');
+
+
+Route::get('/toetsmaken', [ControllerInsertTest::class, 'toetsmaken'])->name('toetsmaken');
+
+// Question management
+Route::post('/toetsmaken', [controllerquestions::class, 'storeQuestion'])->name('question.store');
+Route::post('/toetsmaken/update/{id}', [controllerquestions::class, 'updateQuestion'])->name('question.update');
+Route::get('/toetsmaken/delete/{id}', [controllerquestions::class, 'deleteQuestion'])->name('question.delete');
