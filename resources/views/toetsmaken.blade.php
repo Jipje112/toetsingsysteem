@@ -42,11 +42,14 @@
                     </div>
 
                     <div class="flex items-center space-x-2">
-                        <input type="checkbox" name="correct_answer" value="1" id="correct_answer">
                         <label for="correct_answer">Correct antwoord?</label>
+                        <input type="radio" name="correct_answer" value="1" checked id="correct_answer">
+                        <label for="correct_answer">Ja</label>
+                        <input type="radio" name="correct_answer" value="0" id="incorrect_answer">
+                        <label for="incorrect_answer">Nee</label>
                     </div>
 
-                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Vraag toevoegen</button>
+                    <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded">Vraag toevoegen</button>
                 </form>
 
                 <!-- List of Questions -->
@@ -66,8 +69,10 @@
                                 </select>
 
                                 <div class="flex items-center space-x-2">
-                                    <input type="checkbox" name="correct_answer" value="1" {{ $question->correct_answer ? 'checked' : '' }}>
-                                    <label>Correct antwoord</label>
+                                    <input type="radio" name="correct_answer" value="1" {{ $question->correct_answer ? 'checked' : '' }} id="correct_answer_{{ $question->id }}">
+                                    <label for="correct_answer_{{ $question->id }}">Correct antwoord</label>
+                                    <input type="radio" name="correct_answer" value="0" {{ !$question->correct_answer ? 'checked' : '' }} id="incorrect_answer_{{ $question->id }}">
+                                    <label for="incorrect_answer_{{ $question->id }}">Incorrect antwoord</label>
                                 </div>
 
                                 <div class="flex justify-between">
