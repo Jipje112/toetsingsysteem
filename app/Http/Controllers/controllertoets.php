@@ -59,7 +59,7 @@ class Controllertoets extends Controller
         DB::table('questions')->insert([
             'question' => $request->question,
             'testnameID' => $request->testnameID,
-            'correct_answer' => $request->has('correct_answer') ? 1 : 0,
+            'correct_answer' => $request->correct_answer,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -77,7 +77,7 @@ class Controllertoets extends Controller
         DB::table('questions')->where('id', $id)->update([
             'question' => $request->question,
             'testnameID' => $request->testnameID,
-            'correct_answer' => $request->has('correct_answer') ? 1 : 0,
+            'correct_answer' => $request->correct_answer,
             'updated_at' => now(),
         ]);
 
