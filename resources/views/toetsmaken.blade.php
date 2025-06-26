@@ -85,7 +85,7 @@
                         <h1 class="text-2xl font-bold">Toetsen</h1>
 
                         <!-- Add New Test -->
-                        <form action="{{ route('toets.store') }}" method="POST" class="space-x-2">
+                        <form method="POST" action="{{ route('toets.store') }}" class="space-x-2">
                             @csrf
                             <input type="text" name="name" placeholder="Nieuwe toets naam" required class="border p-2 rounded">
                             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Toevoegen</button>
@@ -95,7 +95,7 @@
                         <div class="max-h-96 overflow-y-auto space-y-3 pr-2">
                             @foreach ($tests as $test)
                                 <div class="border p-4 rounded flex justify-between items-center">
-                                    <form action="{{ route('toets.update', $test->id) }}" method="POST" class="flex space-x-2 items-center">
+                                    <form method="POST" action="{{ route('toets.update', $test->id) }}" class="flex space-x-2 items-center">
                                         @csrf
                                         <input type="text" name="name" value="{{ $test->name }}" class="border p-1 rounded">
                                         <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>

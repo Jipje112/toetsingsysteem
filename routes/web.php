@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Controllertoets;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\ControllerInsertTest;
-use App\Http\Controllers\controllerquestions;
+use App\Http\Controllers\ToetsController;
 
 
 Route::get('/', function () {
@@ -34,17 +34,15 @@ Route::get('/inloggen', function () {
     return view('Inloggen', compact('users'));
 })->name('inloggen');
 
-Route::get('/toetsmaken', [ControllerInsertTest::class, 'toetsmaken'])->name('toetsmaken');
 
-// Test management
-Route::post('/toetsmaken', [ControllerInsertTest::class, 'store'])->name('toets.store');
-Route::post('/toetsmaken/update/{id}', [ControllerInsertTest::class, 'update'])->name('toets.update');
-Route::get('/toetsmaken/delete/{id}', [ControllerInsertTest::class, 'delete'])->name('toets.delete');
+Route::get('/toetsmaken', [Controllertoets::class, 'toetsmaken'])->name('toetsmaken');
 
+// Test routes
+Route::post('/toets/store', [Controllertoets::class, 'storeTest'])->name('toets.store');
+Route::post('/toets/update/{id}', [Controllertoets::class, 'updateTest'])->name('toets.update');
+Route::get('/toets/delete/{id}', [Controllertoets::class, 'deleteTest'])->name('toets.delete');
 
-Route::get('/toetsmaken', [ControllerInsertTest::class, 'toetsmaken'])->name('toetsmaken');
-
-// Question management
-Route::post('/toetsmaken', [controllerquestions::class, 'storeQuestion'])->name('question.store');
-Route::post('/toetsmaken/update/{id}', [controllerquestions::class, 'updateQuestion'])->name('question.update');
-Route::get('/toetsmaken/delete/{id}', [controllerquestions::class, 'deleteQuestion'])->name('question.delete');
+// Question routes
+Route::post('/question/store', [Controllertoets::class, 'storeQuestion'])->name('question.store');
+Route::post('/question/update/{id}', [Controllertoets::class, 'updateQuestion'])->name('question.update');
+Route::get('/question/delete/{id}', [Controllertoets::class, 'deleteQuestion'])->name('question.delete');
