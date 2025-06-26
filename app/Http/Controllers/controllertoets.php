@@ -1,23 +1,27 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class controllerinserttest extends Controller
+class Controllertoets extends Controller
 {
+    // Shared GET: View page with tests and optionally questions
     public function toetsmaken(Request $request)
     {
         $tests = DB::table('testname')->get();
 
-            $questions = DB::table('questions')
-        ->when($request->filter, fn($q) => $q->where('testnameID', $request->filter))
-        ->get();
+        $questions = DB::table('questions')
+            ->when($request->filter, fn($q) => $q->where('testnameID', $request->filter))
+            ->get();
 
-        return view('toetsmaken', compact('tests'));
+        return view('toetsmaken', compact('tests', 'questions'));
     }
 
-    public function store(Request $request)
+    // 🟢 TEST CRUD
+
+    public function storeTest(Request $request)
     {
         DB::table('testname')->insert([
             'name' => $request->input('name'),
@@ -28,7 +32,7 @@ class controllerinserttest extends Controller
         return redirect()->route('toetsmaken');
     }
 
-    public function update(Request $request, $id)
+    public function updateTest(Request $request, $id)
     {
         DB::table('testname')->where('id', $id)->update([
             'name' => $request->input('name'),
@@ -37,37 +41,13 @@ class controllerinserttest extends Controller
         return redirect()->route('toetsmaken');
     }
 
-    public function delete($id)
+    public function deleteTest($id)
     {
         DB::table('testname')->where('id', $id)->delete();
         return redirect()->route('toetsmaken');
     }
-}
 
-//Id like to have the two controllers compined into one controller, but I want to keep the routes separate.
-?>
-
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-class controllerquestions extends Controller
-{
-    public function toetsmaken(Request $request)
-    {
-        $tests = DB::table('testname')->get();
-
-        $questions = DB::table('questions')
-            ->when($request->filter, function ($query, $filter) {
-                return $query->where('testnameID', $filter);
-            })
-            ->get();
-
-        return view('toetsmaken', compact('tests', 'questions'));
-    }
+    // 🟡 QUESTION CRUD
 
     public function storeQuestion(Request $request)
     {
@@ -94,14 +74,12 @@ class controllerquestions extends Controller
             'testnameID' => 'required|exists:testname,id',
         ]);
 
-        DB::table('questions')
-            ->where('id', $id)
-            ->update([
-                'question' => $request->question,
-                'testnameID' => $request->testnameID,
-                'correct_answer' => $request->has('correct_answer') ? 1 : 0,
-                'updated_at' => now(),
-            ]);
+        DB::table('questions')->where('id', $id)->update([
+            'question' => $request->question,
+            'testnameID' => $request->testnameID,
+            'correct_answer' => $request->has('correct_answer') ? 1 : 0,
+            'updated_at' => now(),
+        ]);
 
         return redirect()->route('toetsmaken');
     }
