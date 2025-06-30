@@ -89,4 +89,12 @@ class Controllertoets extends Controller
         DB::table('questions')->where('id', $id)->delete();
         return redirect()->route('toetsmaken');
     }
+    // In Controllertoets.php
+  public function showStudentPage()
+    {
+        $tests = DB::table('testname')->get(); // or however your tests are stored
+        return view('student', compact('tests'));
+    }
+
 }
+

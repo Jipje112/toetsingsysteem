@@ -6,15 +6,16 @@ use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ToetsController;
 
-
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Authenticated dashboard
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Authenticated settings routes
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
@@ -23,18 +24,24 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+// Auth routes
 require __DIR__.'/auth.php';
 
+// Public table2 page
 Route::get('/table2', function () {
     return view('Table2');
 })->name('table2');
 
+// ✅ FIXED: Route to student view via controller — removes duplicate route
+Route::get('/student', [Controllertoets::class, 'showStudentPage'])->name('student');
+
+// Inloggen view with users
 Route::get('/inloggen', function () {
     $users = DB::table('users')->get();
     return view('Inloggen', compact('users'));
 })->name('inloggen');
 
-
+// Test creation/viewing
 Route::get('/toetsmaken', [Controllertoets::class, 'toetsmaken'])->name('toetsmaken');
 
 // Test routes
