@@ -44,13 +44,6 @@
                                 Register
                             </a>
                         @endif
-
-                        <a
-                            href="{{ route('student') }}"
-                            class="inline-block px-5 py-1.5 bg-blue-100 text-blue-900 hover:bg-blue-200 border border-blue-300 dark:bg-blue-800 dark:text-white rounded-sm text-sm leading-normal"
-                        >
-                            Student
-                        </a>
                     @endauth
                 </nav>
             @endif
@@ -58,5 +51,11 @@
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif
+        <a
+            href="{{ route('student') }}"
+            class="inline-block px-5 py-1.5 bg-blue-100 text-blue-900 hover:bg-blue-200 border border-blue-300 dark:bg-blue-800 dark:text-white rounded-sm text-sm leading-normal"
+        >
+            Student
+        </a>
     </body>
 </html>

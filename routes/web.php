@@ -15,6 +15,8 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+
+
 // Authenticated settings routes
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -24,6 +26,14 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+Route::get('student', function () {
+    $tests = DB::table('testname')->get();
+
+    return view('student', compact('tests'));
+})->name('student');
+
+
+
 // Auth routes
 require __DIR__.'/auth.php';
 
@@ -32,8 +42,6 @@ Route::get('/table2', function () {
     return view('Table2');
 })->name('table2');
 
-// ✅ FIXED: Route to student view via controller — removes duplicate route
-Route::get('/student', [Controllertoets::class, 'showStudentPage'])->name('student');
 
 // Inloggen view with users
 Route::get('/inloggen', function () {
@@ -53,3 +61,6 @@ Route::get('/toets/delete/{id}', [Controllertoets::class, 'deleteTest'])->name('
 Route::post('/question/store', [Controllertoets::class, 'storeQuestion'])->name('question.store');
 Route::post('/question/update/{id}', [Controllertoets::class, 'updateQuestion'])->name('question.update');
 Route::get('/question/delete/{id}', [Controllertoets::class, 'deleteQuestion'])->name('question.delete');
+
+
+
